@@ -21,7 +21,7 @@ export function TeacherGuidePanel() {
           <li>탐색 12분: 기본 핀 3개 이상 눌러 보기</li>
           <li>조사 13분: 관심 문화유산 가치 문장 작성</li>
           <li>확장 7분: 자기 지역 문화유산 핀 추가</li>
-          <li>정리 3분: 새롭게 알게 된 점 공유</li>
+          <li>정리 3분: 탐험 기록 출력 후 새롭게 알게 된 점 공유</li>
         </ol>
       </div>
     </details>

@@ -128,4 +128,35 @@ describe("App", () => {
       ),
     );
   });
+
+  it("prints saved exploration records without student name fields", () => {
+    const printSpy = vi.spyOn(window, "print").mockImplementation(() => undefined);
+    render(<App />);
+
+    expect(screen.getByRole("button", { name: "탐험 기록 인쇄" })).toBeDisabled();
+
+    fireEvent.click(screen.getByTestId("marker-bulguksa"));
+
+    const dialog = screen.getByRole("dialog", { name: "경주 불국사" });
+    fireEvent.change(within(dialog).getByLabelText(/불국사를 오래 보존/), {
+      target: { value: "신라 문화를 알려 주기 때문에 소중합니다." },
+    });
+    fireEvent.change(within(dialog).getByLabelText("더 알아보고 싶은 점"), {
+      target: { value: "석축은 어떻게 만들었을까?" },
+    });
+    fireEvent.click(within(dialog).getByRole("button", { name: "기록 저장" }));
+    fireEvent.click(within(dialog).getByRole("button", { name: "탐험 완료" }));
+    fireEvent.click(within(dialog).getByRole("button", { name: "팝업 닫기" }));
+
+    const printButton = screen.getByRole("button", { name: "탐험 기록 인쇄" });
+    expect(printButton).toBeEnabled();
+    fireEvent.click(printButton);
+
+    const printSheet = screen.getByLabelText("인쇄용 탐험 기록");
+    expect(printSpy).toHaveBeenCalledOnce();
+    expect(printSheet).toHaveTextContent("경주 불국사");
+    expect(printSheet).toHaveTextContent("신라 문화를 알려 주기 때문에 소중합니다.");
+    expect(printSheet).toHaveTextContent("석축은 어떻게 만들었을까?");
+    expect(printSheet).not.toHaveTextContent("학생 이름");
+  });
 });

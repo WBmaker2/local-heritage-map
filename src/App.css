@@ -87,6 +87,7 @@ button {
 .brand-block p,
 .map-stage__header p,
 .mission-panel__top p,
+.print-panel__top p,
 .teacher-guide__body p {
   margin: 4px 0 0;
   color: #567064;
@@ -176,6 +177,7 @@ button {
 .filter-strip,
 .map-stage,
 .mission-panel,
+.print-panel,
 .teacher-guide {
   border: 1px solid #c9ded0;
   border-radius: 8px;
@@ -230,6 +232,7 @@ button {
 
 .map-stage__header h2,
 .mission-panel h2,
+.print-panel h2,
 .teacher-guide h2,
 .site-modal h2,
 .pin-dialog h2 {
@@ -346,13 +349,21 @@ button {
 }
 
 .mission-panel,
+.print-panel,
 .teacher-guide {
   padding: 16px;
 }
 
-.mission-panel__top {
+.mission-panel__top,
+.print-panel__top {
   gap: 12px;
   margin-bottom: 14px;
+}
+
+.print-panel__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .mission-panel__count {
@@ -364,6 +375,31 @@ button {
   background: #f5dd85;
   color: #614000;
   font-weight: 900;
+}
+
+.print-panel__count {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: 8px;
+  background: #e8f2ff;
+  color: #1e4f7a;
+  font-weight: 900;
+}
+
+.print-panel__button {
+  width: 100%;
+}
+
+.print-panel__button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.print-sheet {
+  display: none;
 }
 
 .mission-list {
@@ -638,6 +674,103 @@ button {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+@media print {
+  :root,
+  body {
+    color: #111;
+    background: #fff;
+  }
+
+  .app-shell {
+    min-height: auto;
+    padding: 0;
+    background: #fff;
+  }
+
+  .app-header,
+  .app-main,
+  .modal-backdrop,
+  .sr-only {
+    display: none !important;
+  }
+
+  .print-sheet {
+    display: block;
+    padding: 24px;
+  }
+
+  .print-sheet__header {
+    margin-bottom: 18px;
+    border-bottom: 2px solid #111;
+    padding-bottom: 12px;
+  }
+
+  .print-sheet__header p,
+  .print-sheet__header h2,
+  .print-record h3,
+  .print-record dl,
+  .print-record dd {
+    margin: 0;
+  }
+
+  .print-sheet__header p {
+    font-weight: 700;
+  }
+
+  .print-sheet__header h2 {
+    margin-top: 4px;
+    font-size: 22pt;
+    letter-spacing: 0;
+  }
+
+  .print-sheet__records {
+    display: grid;
+    gap: 12px;
+  }
+
+  .print-record {
+    break-inside: avoid;
+    border: 1px solid #222;
+    border-radius: 0;
+    padding: 12px;
+  }
+
+  .print-record__title {
+    margin-bottom: 10px;
+  }
+
+  .print-record__title span {
+    font-size: 10pt;
+    font-weight: 700;
+  }
+
+  .print-record h3 {
+    margin-top: 2px;
+    font-size: 16pt;
+  }
+
+  .print-record dl {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .print-record dt {
+    font-size: 9pt;
+    font-weight: 700;
+  }
+
+  .print-record dd {
+    margin-top: 2px;
+    line-height: 1.5;
+  }
+
+  .print-sheet__empty {
+    border: 1px solid #222;
+    padding: 18px;
+  }
 }
 
 @media (max-width: 980px) {

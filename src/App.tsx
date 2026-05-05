@@ -4,6 +4,7 @@ import { AddPinDialog } from "./components/AddPinDialog";
 import { GyeongbukMap } from "./components/GyeongbukMap";
 import { HeritageFilter } from "./components/HeritageFilter";
 import { MissionPanel } from "./components/MissionPanel";
+import { PrintReportPanel } from "./components/PrintReportPanel";
 import { SiteModal } from "./components/SiteModal";
 import { TeacherGuidePanel } from "./components/TeacherGuidePanel";
 import { getSiteTitle, heritageSites, type CustomPin, type MapSite } from "./data/heritageSites";
@@ -138,6 +139,11 @@ export default function App() {
     setLiveMessage("탐험 기록을 초기화했습니다.");
   }
 
+  function handlePrintReport() {
+    setLiveMessage("탐험 기록 출력 화면을 준비했습니다.");
+    window.print();
+  }
+
   return (
     <div className="app-shell">
       <header className="app-header">
@@ -176,6 +182,12 @@ export default function App() {
         </div>
         <div className="app-main__right">
           <MissionPanel completedSiteIds={completedSiteIds} noteCount={noteCount} />
+          <PrintReportPanel
+            sites={allSites}
+            notes={notes}
+            completedSiteIds={completedSiteIds}
+            onPrint={handlePrintReport}
+          />
           <TeacherGuidePanel />
         </div>
       </main>
