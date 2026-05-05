@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { MapSite } from "../data/heritageSites";
 import { getSiteTitle } from "../data/heritageSites";
 
@@ -54,6 +54,7 @@ export function GyeongbukMap({
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markerLayerRef = useRef<L.LayerGroup | null>(null);
+  const [hasTileError, setHasTileError] = useState(false);
 
   useEffect(() => {
     if (!mapContainerRef.current || mapRef.current) {
@@ -69,11 +70,13 @@ export function GyeongbukMap({
       zoomControl: true,
     });
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    const tileLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
+    });
+    tileLayer.on("tileerror", () => setHasTileError(true));
+    tileLayer.addTo(map);
 
     const markerLayer = L.layerGroup().addTo(map);
     map.fitBounds(GYEONGBUK_BOUNDS, { padding: [18, 18] });
@@ -87,6 +90,16 @@ export function GyeongbukMap({
       map.remove();
       mapRef.current = null;
       markerLayerRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    const onTileError = () => setHasTileError(true);
+
+    window.addEventListener("local-heritage-map:tile-error", onTileError);
+
+    return () => {
+      window.removeEventListener("local-heritage-map:tile-error", onTileError);
     };
   }, []);
 
@@ -137,6 +150,12 @@ export function GyeongbukMap({
         </div>
       </div>
       <div className="real-map-canvas" ref={mapContainerRef} aria-label="OpenStreetMap 기반 경상북도 지도" />
+      {hasTileError ? (
+        <p className="map-load-notice" role="status" aria-label="지도 상태">
+          지도 타일을 불러오지 못했습니다. 잠시 뒤 새로고침하거나 학교 네트워크에서 OpenStreetMap 접속이 허용되는지
+          확인해 주세요.
+        </p>
+      ) : null}
       <p className="map-attribution">
         지도 자료:{" "}
         <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">

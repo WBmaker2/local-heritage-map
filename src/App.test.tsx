@@ -85,4 +85,47 @@ describe("App", () => {
     expect(screen.getByRole("dialog", { name: "우리 마을 성터" })).toBeInTheDocument();
     expect(screen.getByRole("status")).toHaveTextContent("우리 마을 성터 핀을 지도에 추가했습니다.");
   });
+
+  it("uses a known city preset when adding a custom pin", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole("button", { name: "내 핀 추가" }));
+
+    const dialog = screen.getByRole("dialog", { name: "내 문화유산 핀 추가" });
+    fireEvent.change(within(dialog).getByLabelText("문화유산 이름"), {
+      target: { value: "문경 옛길" },
+    });
+    fireEvent.change(within(dialog).getByLabelText("시군"), {
+      target: { value: "문경시" },
+    });
+
+    expect(within(dialog).getByText("문경시 대표 위치로 좌표를 맞췄습니다.")).toBeInTheDocument();
+
+    fireEvent.change(within(dialog).getByLabelText("한 줄 설명"), {
+      target: { value: "옛길을 따라 사람들의 이동을 살펴볼 수 있습니다." },
+    });
+    fireEvent.change(within(dialog).getByLabelText("내가 생각한 가치"), {
+      target: { value: "지역의 교통과 생활 이야기를 알려 주기 때문에 소중합니다." },
+    });
+    fireEvent.click(within(dialog).getByRole("button", { name: /핀 저장/ }));
+
+    const savedPins = JSON.parse(window.localStorage.getItem("localHeritageMap.customPins.v1") ?? "[]");
+    expect(savedPins[0]).toMatchObject({
+      city: "문경시",
+      latitude: 36.5865,
+      longitude: 128.1868,
+    });
+  });
+
+  it("shows a map loading notice when OpenStreetMap tiles fail", async () => {
+    render(<App />);
+
+    window.dispatchEvent(new Event("local-heritage-map:tile-error"));
+
+    await waitFor(() =>
+      expect(screen.getByRole("status", { name: "지도 상태" })).toHaveTextContent(
+        "지도 타일을 불러오지 못했습니다.",
+      ),
+    );
+  });
 });

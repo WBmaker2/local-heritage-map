@@ -22,9 +22,9 @@
 - Create: `src/vite-env.d.ts`
 - Create: `src/test/setup.ts`
 
-- [ ] Create the Vite React TypeScript baseline with `dev`, `build`, and `test` scripts.
-- [ ] Configure Vitest with jsdom and Testing Library setup.
-- [ ] Mount `App` into `#root`.
+- [x] Create the Vite React TypeScript baseline with `dev`, `build`, and `test` scripts.
+- [x] Configure Vitest with jsdom and Testing Library setup.
+- [x] Mount `App` into `#root`.
 
 ### Task 2: Data and Storage
 
@@ -35,10 +35,10 @@
 - Test: `src/data/heritageSites.test.ts`
 - Test: `src/lib/storage.test.ts`
 
-- [ ] Add six Gyeongbuk heritage entries with source URLs and percentage map positions.
-- [ ] Add three classroom missions.
-- [ ] Implement safe localStorage helpers for notes, completed sites, and custom pins.
-- [ ] Test required data fields, coordinate bounds, and storage round trips.
+- [x] Add six Gyeongbuk heritage entries with source URLs and percentage map positions.
+- [x] Add three classroom missions.
+- [x] Implement safe localStorage helpers for notes, completed sites, and custom pins.
+- [x] Test required data fields, coordinate bounds, and storage round trips.
 
 ### Task 3: Interactive App UI
 
@@ -53,19 +53,19 @@
 - Create: `src/components/TeacherGuidePanel.tsx`
 - Test: `src/App.test.tsx`
 
-- [ ] Render a first-screen app, not a landing page.
-- [ ] Display the OpenStreetMap-based Gyeongbuk map and marker buttons.
-- [ ] Open a modal with heritage details, note entry, and completion action.
-- [ ] Save notes, completed state, and custom pins to localStorage.
-- [ ] Add filters by region/type and a teacher guide panel.
-- [ ] Test marker click, modal behavior, note save, completion progress, filtering, custom pin creation, and accessible labels.
+- [x] Render a first-screen app, not a landing page.
+- [x] Display the OpenStreetMap-based Gyeongbuk map and marker buttons.
+- [x] Open a modal with heritage details, note entry, and completion action.
+- [x] Save notes, completed state, and custom pins to localStorage.
+- [x] Add filters by region/type and a teacher guide panel.
+- [x] Test marker click, modal behavior, note save, completion progress, filtering, custom pin creation, and accessible labels.
 
 ### Task 4: Verification
 
 **Files:**
 - Modify as needed after test/build feedback.
 
-- [ ] Run `npm install`.
-- [ ] Run `npm test -- --run`.
-- [ ] Run `npm run build`.
-- [ ] Start `npm run dev` and verify the app opens locally.
+- [x] Run `npm install`.
+- [x] Run `npm test -- --run`.
+- [x] Run `npm run build`.
+- [x] Start `npm run dev` and verify the app opens locally.

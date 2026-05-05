@@ -253,6 +253,18 @@ button {
   font-size: 0.72rem;
 }
 
+.map-load-notice {
+  margin: 10px auto 0;
+  max-width: 860px;
+  padding: 10px 12px;
+  border: 1px solid #e8ca73;
+  border-radius: 8px;
+  background: #fff8dd;
+  color: #6a4700;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
 .leaflet-heritage-marker {
   display: flex;
   align-items: center;
@@ -598,6 +610,13 @@ button {
 .student-note textarea,
 .pin-form textarea {
   resize: vertical;
+}
+
+.pin-form__helper {
+  margin: -4px 0 2px;
+  color: #60776d;
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 .pin-form__sliders {

@@ -12,6 +12,10 @@ export function TeacherGuidePanel() {
           학생이 경북 지도에서 문화유산 위치를 찾고, 유형과 가치를 한 문장으로
           정리하도록 안내합니다.
         </p>
+        <p>
+          자세한 40분 수업 흐름과 학생 문장 틀은 <code>docs/classroom-activity-guide.md</code>에
+          정리했습니다.
+        </p>
         <ol>
           <li>도입 5분: 경상북도 위치와 탐험 미션 확인</li>
           <li>탐색 12분: 기본 핀 3개 이상 눌러 보기</li>

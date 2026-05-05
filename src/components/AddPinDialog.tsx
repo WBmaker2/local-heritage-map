@@ -1,5 +1,6 @@
 import { Plus, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { cityPresets, findCityPreset } from "../data/cityPresets";
 import type { CustomPin, HeritageCategory } from "../data/heritageSites";
 
 type AddPinDialogProps = {
@@ -18,10 +19,25 @@ export function AddPinDialog({ onClose, onAddPin }: AddPinDialogProps) {
   const [valueSentence, setValueSentence] = useState("");
   const [latitude, setLatitude] = useState(36.45);
   const [longitude, setLongitude] = useState(128.75);
+  const [cityHelperText, setCityHelperText] = useState("시군을 입력하면 대표 위치로 좌표를 쉽게 맞출 수 있습니다.");
 
   useEffect(() => {
     titleRef.current?.focus();
   }, []);
+
+  function handleCityChange(nextCity: string) {
+    setCity(nextCity);
+    const preset = findCityPreset(nextCity);
+
+    if (!preset) {
+      setCityHelperText("직접 좌표를 조정해 문화유산 위치를 맞춰 보세요.");
+      return;
+    }
+
+    setLatitude(preset.latitude);
+    setLongitude(preset.longitude);
+    setCityHelperText(preset.helperText);
+  }
 
   return (
     <div className="modal-backdrop" role="presentation">
@@ -63,10 +79,17 @@ export function AddPinDialog({ onClose, onAddPin }: AddPinDialogProps) {
           <input
             id="custom-city"
             required
+            list="gyeongbuk-city-presets"
             value={city}
-            onChange={(event) => setCity(event.target.value)}
+            onChange={(event) => handleCityChange(event.target.value)}
             placeholder="예: 문경시"
           />
+          <datalist id="gyeongbuk-city-presets">
+            {cityPresets.map((preset) => (
+              <option key={preset.city} value={preset.city} />
+            ))}
+          </datalist>
+          <p className="pin-form__helper">{cityHelperText}</p>
           <label htmlFor="custom-category">유형</label>
           <select
             id="custom-category"
@@ -97,23 +120,23 @@ export function AddPinDialog({ onClose, onAddPin }: AddPinDialogProps) {
             placeholder="왜 소중한지 한 문장으로 적어 보세요."
           />
           <div className="pin-form__sliders">
-            <label htmlFor="custom-latitude">위도 {latitude.toFixed(3)}</label>
+            <label htmlFor="custom-latitude">위도 {latitude.toFixed(4)}</label>
             <input
               id="custom-latitude"
               type="range"
               min="35.6"
               max="37.1"
-              step="0.001"
+              step="0.0001"
               value={latitude}
               onChange={(event) => setLatitude(Number(event.target.value))}
             />
-            <label htmlFor="custom-longitude">경도 {longitude.toFixed(3)}</label>
+            <label htmlFor="custom-longitude">경도 {longitude.toFixed(4)}</label>
             <input
               id="custom-longitude"
               type="range"
               min="128.0"
               max="129.6"
-              step="0.001"
+              step="0.0001"
               value={longitude}
               onChange={(event) => setLongitude(Number(event.target.value))}
             />
